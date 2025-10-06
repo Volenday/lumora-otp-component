@@ -1,5 +1,5 @@
 {
-  "name": "@nova/lumora-otp",
+  "name": "@volenday/lumora-otp",
   "version": "1.0.0",
   "description": "A reusable React OTP verification component for internal use",
   "type": "module",
@@ -54,7 +54,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nova/lumora-otp-component.git"
+    "url": "git+https://github.com/Volenday/lumora-otp-component.git"
   },
   "keywords": [
     "react",

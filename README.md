@@ -18,18 +18,18 @@ A reusable React OTP (One-Time Password) verification component for internal use
 
 ### Using GitHub Packages
 
-First, configure npm to use GitHub Packages for the `@nova` scope:
+First, configure npm to use GitHub Packages for the `@volenday` scope:
 
 ```bash
 # Create or update .npmrc file in your project root
-echo "@nova:registry=https://npm.pkg.github.com" >> .npmrc
+echo "@volenday:registry=https://npm.pkg.github.com" >> .npmrc
 echo "//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}" >> .npmrc
 ```
 
 Then install the package:
 
 ```bash
-npm install @nova/lumora-otp
+npm install @volenday/lumora-otp
 ```
 
 **Note:** You'll need a GitHub Personal Access Token with `packages:read` permission. Set it as an environment variable:
@@ -42,7 +42,7 @@ export GITHUB_TOKEN=your_github_token_here
 
 ```tsx
 import React from "react";
-import { LumoraOTP } from "@nova/lumora-otp";
+import { LumoraOTP } from "@volenday/lumora-otp";
 
 const MyComponent = () => {
   const handleVerify = async (otp: string) => {
