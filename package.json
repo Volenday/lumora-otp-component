@@ -1,6 +1,6 @@
 {
-  "name": "@volenday/lumora-otp",
-  "version": "1.0.0",
+  "name": "@volenday/lumora-otp-component",
+  "version": "1.0.1",
   "description": "A reusable React OTP verification component for internal use",
   "type": "module",
   "main": "./dist/index.js",
