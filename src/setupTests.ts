@@ -1,32 +1,32 @@
 import '@testing-library/jest-dom';
 import * as React from 'react';
 
-// Mock Material-UI theme
-const mockTheme = {
-	palette: {
-		primary: {
-			main: '#1976d2'
-		},
-		error: {
-			main: '#d32f2f'
-		},
-		success: {
-			main: '#2e7d32'
-		},
-		warning: {
-			main: '#ed6c02'
-		}
-	},
-	spacing: (value: number) => `${value * 8}px`,
-	breakpoints: {
-		down: (breakpoint: string) => `@media (max-width: ${breakpoint})`
-	}
-};
+// Mock Material-UI theme (unused but kept for potential future use)
+// const mockTheme = {
+// 	palette: {
+// 		primary: {
+// 			main: '#1976d2'
+// 		},
+// 		error: {
+// 			main: '#d32f2f'
+// 		},
+// 		success: {
+// 			main: '#2e7d32'
+// 		},
+// 		warning: {
+// 			main: '#ed6c02'
+// 		}
+// 	},
+// 	spacing: (value: number) => `${value * 8}px`,
+// 	breakpoints: {
+// 		down: (breakpoint: string) => `@media (max-width: ${breakpoint})`
+// 	}
+// };
 
 // Mock Material-UI styled function
 jest.mock('@mui/material/styles', () => ({
 	...jest.requireActual('@mui/material/styles'),
-	styled: (component: any) => (styles: any) => component
+	styled: (component: any) => (_styles: any) => component
 }));
 
 // Mock Material-UI components
@@ -88,5 +88,5 @@ global.setInterval = jest.fn();
 global.clearInterval = jest.fn();
 
 // Mock window.setTimeout and clearTimeout
-global.setTimeout = jest.fn();
+global.setTimeout = jest.fn() as any;
 global.clearTimeout = jest.fn();
