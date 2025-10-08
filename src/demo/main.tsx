@@ -1,9 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import SimpleApp from "./SimpleApp";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import SimpleApp from './SimpleApp';
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <SimpleApp />
-  </React.StrictMode>
+// Render the SimpleApp component to the DOM
+ReactDOM.createRoot(document.getElementById('root')!).render(
+	<React.StrictMode>
+		<SimpleApp />
+	</React.StrictMode>
 );
