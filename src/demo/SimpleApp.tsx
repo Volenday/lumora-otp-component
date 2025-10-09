@@ -137,7 +137,7 @@ const SimpleApp: React.FC = () => {
 
 			<Grid container spacing={{ xs: 2, md: 4 }}>
 				{/* Configuration Panel */}
-				<Grid item xs={12} lg={4}>
+				<Grid size={{ xs: 12, lg: 4 }}>
 					<Paper
 						sx={{
 							p: { xs: 2, sm: 3 },
@@ -280,7 +280,7 @@ const SimpleApp: React.FC = () => {
 				</Grid>
 
 				{/* OTP Component Demo */}
-				<Grid item xs={12} lg={4}>
+				<Grid size={{ xs: 12, lg: 4 }}>
 					<Paper
 						sx={{
 							p: { xs: 2, sm: 3 },
@@ -297,7 +297,7 @@ const SimpleApp: React.FC = () => {
 				</Grid>
 
 				{/* Results Panel */}
-				<Grid item xs={12} lg={4}>
+				<Grid size={{ xs: 12, lg: 4 }}>
 					<Paper
 						sx={{
 							p: { xs: 2, sm: 3 },
@@ -375,7 +375,7 @@ const SimpleApp: React.FC = () => {
 				</Typography>
 				<Divider sx={{ mb: 2 }} />
 				<Grid container spacing={{ xs: 1, md: 2 }}>
-					<Grid item xs={12} md={6}>
+					<Grid size={{ xs: 12, md: 6 }}>
 						<Typography variant="h6" gutterBottom>
 							Required Props
 						</Typography>
@@ -406,7 +406,7 @@ const SimpleApp: React.FC = () => {
 							</Box>
 						</Stack>
 					</Grid>
-					<Grid item xs={12} md={6}>
+					<Grid size={{ xs: 12, md: 6 }}>
 						<Typography variant="h6" gutterBottom>
 							Optional Props
 						</Typography>
