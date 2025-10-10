@@ -1,0 +1,46 @@
+# Source files
+src/
+examples/
+docs/
+
+# Development files
+*.config.js
+*.config.ts
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
+jest.config.js
+
+# Build artifacts (except dist)
+dist-demo/
+
+# Development dependencies
+node_modules/
+package-lock.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/__tests__/
+coverage/
+
+# Documentation
+README.md
+*.md
+
+# Demo files
+index.html

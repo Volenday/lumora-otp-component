@@ -33,8 +33,9 @@ export default defineConfig(({ command }) => {
 			lib: {
 				entry: resolve(__dirname, 'src/index.ts'),
 				name: 'LumoraOTP',
-				formats: ['es'],
-				fileName: 'index'
+				formats: ['es', 'cjs'],
+				fileName: format =>
+					format === 'cjs' ? 'index.cjs' : 'index.es.js'
 			},
 			rollupOptions: {
 				external: [

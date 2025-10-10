@@ -1,77 +1,72 @@
-# LumoraOTP Component
+# Lumora OTP Component
 
-A reusable React OTP (One-Time Password) verification component for internal use, built with TypeScript, React, MUI, and react-hook-form.
+A modern, reusable React OTP (One-Time Password) verification component built with TypeScript, Material-UI, and React Hook Form.
 
 ## Features
 
--   ✅ Multiple input fields with auto-focus progression
--   ✅ Paste support to fill all fields at once
--   ✅ Numeric input validation with react-hook-form
--   ✅ Submit and resend functionality with cooldown timers
--   ✅ Loading and error states with animations
--   ✅ Responsive design for mobile and desktop
--   ✅ Configurable digit count (4-6 digits)
--   ✅ Expiration timer with countdown
--   ✅ TypeScript support with full type definitions
+-   🔢 **Configurable digit count** (4, 6, or any number)
+-   📱 **Responsive design** with mobile-first approach
+-   ⏰ **Built-in timers** for resend cooldown and expiration
+-   📋 **Clipboard support** for easy OTP pasting
+-   🎨 **Material-UI integration** with custom styling
+-   🔄 **Auto-focus** and keyboard navigation
+-   ✅ **Form validation** with React Hook Form
+-   🎭 **Shake animation** for error feedback
+-   📦 **TypeScript support** with full type definitions
 
 ## Installation
 
-### Using GitHub Packages
-
-First, configure npm to use GitHub Packages for the `@volenday` scope:
+### From Git Repository
 
 ```bash
-# Create or update .npmrc file in your project root
-echo "@volenday:registry=https://npm.pkg.github.com" >> .npmrc
-echo "//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}" >> .npmrc
+npm install git+https://github.com/Volenday/lumora-otp-component.git
 ```
 
-Then install the package:
+### Peer Dependencies
+
+Make sure you have the required peer dependencies installed:
 
 ```bash
-npm install @volenday/lumora-otp
-```
-
-**Note:** You'll need a GitHub Personal Access Token with `packages:read` permission. Set it as an environment variable:
-
-```bash
-export GITHUB_TOKEN=your_github_token_here
+npm install react react-dom @mui/material @emotion/react @emotion/styled react-hook-form
 ```
 
 ## Usage
 
+### Basic Usage
+
 ```tsx
 import React from 'react';
-import { LumoraOTP } from '@volenday/lumora-otp';
+import { LumoraOTP } from '@volenday/lumora-otp-component';
 
-const MyComponent = () => {
+const App = () => {
 	const handleVerify = async (otp: string) => {
 		// Your verification logic here
-		const response = await fetch('/api/verify-otp', {
-			method: 'POST',
-			body: JSON.stringify({ otp })
-		});
+		console.log('Verifying OTP:', otp);
 
-		if (!response.ok) {
+		// Simulate API call
+		await new Promise(resolve => setTimeout(resolve, 1000));
+
+		// Return success response or throw error
+		if (otp === '123456') {
+			return { success: true, message: 'OTP verified successfully' };
+		} else {
 			throw new Error('Invalid OTP');
 		}
-
-		return response.json();
 	};
 
 	const handleVerifySuccess = (response: any) => {
-		console.log('OTP verified successfully:', response);
+		console.log('Verification successful:', response);
 		// Handle successful verification
 	};
 
 	const handleVerifyError = (error: Error) => {
-		console.error('OTP verification failed:', error.message);
+		console.error('Verification failed:', error);
 		// Handle verification error
 	};
 
 	const handleResend = () => {
-		// Your resend logic here
 		console.log('Resending OTP...');
+		// Your resend logic here
 	};
 
 	return (
@@ -80,71 +75,164 @@ const MyComponent = () => {
 			onVerify={handleVerify}
 			onVerifySuccess={handleVerifySuccess}
 			onVerifyError={handleVerifyError}
-			showResend={true}
 			onResend={handleResend}
+			instructionText="Enter the 6-digit code sent to your email"
+			showResend={true}
 			resendCooldown={60}
 			expirationTime={300}
-			instructionText="Enter the code sent to your email"
+			showExpirationTimer={true}
 		/>
 	);
 };
+
+export default App;
+```
+
+### Advanced Usage
+
+```tsx
+import React from 'react';
+import { LumoraOTP, LumoraOTPProps } from '@volenday/lumora-otp-component';
+
+const CustomOTPPage = () => {
+	const handleVerify = async (otp: string) => {
+		const response = await fetch('/api/verify-otp', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ otp })
+		});
+
+		if (!response.ok) {
+			throw new Error('Verification failed');
+		}
+
+		return response.json();
+	};
+
+	const handleVerifySuccess = (response: any) => {
+		// Redirect to dashboard or show success message
+		window.location.href = '/dashboard';
+	};
+
+	const handleVerifyError = (error: Error) => {
+		// Show error toast or handle error
+		console.error('OTP verification failed:', error.message);
+	};
+
+	const handleResend = async () => {
+		try {
+			await fetch('/api/resend-otp', { method: 'POST' });
+			console.log('OTP resent successfully');
+		} catch (error) {
+			console.error('Failed to resend OTP:', error);
+		}
+	};
+
+	return (
+		<div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
+			<LumoraOTP
+				digitCount={4}
+				onVerify={handleVerify}
+				onVerifySuccess={handleVerifySuccess}
+				onVerifyError={handleVerifyError}
+				onResend={handleResend}
+				instructionText="Enter the 4-digit code from your authenticator app"
+				placeholder="•"
+				showResend={true}
+				resendCooldown={30}
+				expirationTime={120}
+				showExpirationTimer={true}
+			/>
+		</div>
+	);
+};
+
+export default CustomOTPPage;
 ```
 
 ## Props
 
 | Prop                  | Type                            | Default                               | Description                                         |
 | --------------------- | ------------------------------- | ------------------------------------- | --------------------------------------------------- |
-| `digitCount`          | `number`                        | `6`                                   | Number of OTP digits (4-6)                          |
-| `onVerify`            | `(otp: string) => Promise<any>` | **Required**                          | Callback function to verify the OTP                 |
-| `onVerifySuccess`     | `(response: any) => void`       | **Required**                          | Callback executed on successful verification        |
-| `onVerifyError`       | `(error: Error) => void`        | **Required**                          | Callback executed on failed verification            |
+| `digitCount`          | `number`                        | `6`                                   | Number of OTP digits                                |
+| `onVerify`            | `(otp: string) => Promise<any>` | **Required**                          | Function to verify the OTP                          |
+| `onVerifySuccess`     | `(response: any) => void`       | **Required**                          | Callback for successful verification                |
+| `onVerifyError`       | `(error: Error) => void`        | **Required**                          | Callback for failed verification                    |
 | `showResend`          | `boolean`                       | `true`                                | Whether to show the resend button                   |
-| `onResend`            | `() => void`                    | -                                     | Callback to handle resending OTP                    |
+| `onResend`            | `() => void`                    | `undefined`                           | Callback for resend action                          |
 | `resendCooldown`      | `number`                        | `60`                                  | Cooldown time in seconds before resend is available |
 | `expirationTime`      | `number`                        | `300`                                 | OTP expiration time in seconds                      |
-| `instructionText`     | `string`                        | `"Enter the code sent to your email"` | Custom instruction text                             |
-| `placeholder`         | `string`                        | `"0"`                                 | Placeholder text for input fields                   |
-| `showExpirationTimer` | `boolean`                       | `true`                                | Whether to show the expiration timer                |
+| `instructionText`     | `string`                        | `'Enter the code sent to your email'` | Instruction text above inputs                       |
+| `placeholder`         | `string`                        | `'0'`                                 | Placeholder for individual input fields             |
+| `showExpirationTimer` | `boolean`                       | `true`                                | Whether to show the expiration countdown            |
 
-## Component States
+## Types
 
-### Default State
+```typescript
+interface LumoraOTPProps {
+	digitCount?: number;
+	onVerify: (otp: string) => Promise<any>;
+	onVerifySuccess: (response: any) => void;
+	onVerifyError: (error: Error) => void;
+	showResend?: boolean;
+	onResend?: () => void;
+	resendCooldown?: number;
+	expirationTime?: number;
+	instructionText?: string;
+	placeholder?: string;
+	showExpirationTimer?: boolean;
+}
 
--   Row of input fields with instructions
--   Resend button (if enabled)
--   Responsive layout
+interface OTPFormData {
+	otp: string;
+}
 
-### Input State
+interface TimerState {
+	resendCooldown: number;
+	expirationTime: number;
+}
+```
 
--   Auto-focus on first field
--   Progress to next field on digit entry
--   Handle backspace to previous field
--   Real-time validation errors
+## Features in Detail
 
-### Loading State
+### Clipboard Support
 
--   Disabled inputs and buttons
--   Progress indicator during verification
+-   Automatically detects when OTP is pasted from clipboard
+-   Validates pasted OTP length matches expected digit count
+-   Auto-fills all input fields and focuses appropriately
 
-### Success State
+### Responsive Design
 
--   Handled via `onVerifySuccess` callback
--   May show success message briefly
+-   Mobile-first approach with breakpoints for different screen sizes
+-   Input fields resize based on screen size
+-   Button layout adapts to mobile screens
 
-### Error State
+### Keyboard Navigation
 
--   Shake animation on fields
--   Error message display
--   Clear fields for retry
+-   Auto-focus to next field when typing
+-   Backspace moves to previous field when current is empty
+-   Tab navigation support
+
+### Error Handling
+
+-   Shake animation for invalid inputs
+-   Clear error messages
+-   Form validation with React Hook Form
+
+### Timer Management
+
+-   Resend cooldown timer
+-   OTP expiration countdown
+-   Visual feedback for timer states
+
+## Browser Support
+
+-   Chrome 60+
+-   Firefox 55+
+-   Safari 12+
+-   Edge 79+
 
 ## Development
-
-### Prerequisites
-
--   Node.js 18+
--   npm or yarn
-
-### Setup
 
 ```bash
 # Install dependencies
@@ -153,65 +241,20 @@ npm install
 # Start development server
 npm run dev
 
-# Build for production
+# Build library
 npm run build
+
+# Run tests
+npm test
 
 # Type checking
 npm run type-check
-
-# Linting
-npm run lint
 ```
-
-### Demo
-
-Run the development server to see the component in action:
-
-```bash
-npm run dev
-```
-
-The demo includes:
-
--   Interactive OTP input (try entering "123456" for success)
--   All component features and states
--   Responsive design testing
-
-## Publishing
-
-This package is configured for publishing to GitHub Packages:
-
-```bash
-# Build the package
-npm run build
-
-# Publish to GitHub Packages
-npm publish
-```
-
-### Prerequisites for Publishing
-
-1. **GitHub Personal Access Token**: Create a token with `packages:write` permission
-2. **Authentication**: Set your GitHub token as an environment variable:
-    ```bash
-    export GITHUB_TOKEN=your_github_token_here
-    ```
-3. **Login**: Authenticate with GitHub Packages:
-    ```bash
-    npm login --scope=@nova --registry=https://npm.pkg.github.com
-    ```
-
-### Automated Publishing
-
-The package includes a GitHub Actions workflow for automated publishing on version tags. Simply create a new release or push a version tag to trigger the publish process.
-
-## Dependencies
-
--   React 18+
--   @mui/material
--   react-hook-form
--   TypeScript
 
 ## License
 
 UNLICENSED - For internal use only.
+
+## Support
+
+For issues and questions, please contact the development team.
