@@ -18,7 +18,9 @@ export default defineConfig(({ command }) => {
 	// Library build mode
 	return {
 		plugins: [
-			react(),
+			react({
+				jsxRuntime: 'automatic'
+			}),
 			dts({
 				insertTypesEntry: true,
 				exclude: [
@@ -32,10 +34,7 @@ export default defineConfig(({ command }) => {
 		build: {
 			lib: {
 				entry: resolve(__dirname, 'src/index.ts'),
-				name: 'LumoraOTP',
-				formats: ['es', 'cjs'],
-				fileName: format =>
-					format === 'cjs' ? 'index.cjs' : 'index.es.js'
+				name: 'LumoraOTP'
 			},
 			rollupOptions: {
 				external: [
@@ -44,18 +43,37 @@ export default defineConfig(({ command }) => {
 					'react-hook-form',
 					'@mui/material',
 					'@emotion/react',
-					'@emotion/styled'
+					'@emotion/styled',
+					'react/jsx-runtime',
+					'react/jsx-dev-runtime'
 				],
-				output: {
-					globals: {
-						react: 'React',
-						'react-dom': 'ReactDOM',
-						'react-hook-form': 'ReactHookForm',
-						'@mui/material': 'MaterialUI',
-						'@emotion/react': 'EmotionReact',
-						'@emotion/styled': 'EmotionStyled'
+				output: [
+					{
+						format: 'es',
+						entryFileNames: 'index.es.js',
+						globals: {
+							react: 'React',
+							'react-dom': 'ReactDOM',
+							'react-hook-form': 'ReactHookForm',
+							'@mui/material': 'MaterialUI',
+							'@emotion/react': 'EmotionReact',
+							'@emotion/styled': 'EmotionStyled'
+						}
+					},
+					{
+						format: 'cjs',
+						entryFileNames: 'index.cjs',
+						exports: 'named',
+						globals: {
+							react: 'React',
+							'react-dom': 'ReactDOM',
+							'react-hook-form': 'ReactHookForm',
+							'@mui/material': 'MaterialUI',
+							'@emotion/react': 'EmotionReact',
+							'@emotion/styled': 'EmotionStyled'
+						}
 					}
-				}
+				]
 			}
 		}
 	};
